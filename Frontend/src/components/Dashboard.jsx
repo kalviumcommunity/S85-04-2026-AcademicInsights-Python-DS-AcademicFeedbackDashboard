@@ -9,21 +9,18 @@ import InsightsPanel from './InsightsPanel';
 import { INITIAL_FORM } from '../config';
 import { predictSatisfaction } from '../api';
 
-function buildDynamicFeatureChartData(result) {
+function buildFeatureChartData(result) {
+  const topFeatures = result?.top_features || {};
+  if (Object.keys(topFeatures).length > 0) return topFeatures;
+
   const impact = result?.impact_analysis || {};
   const impactEntries = Object.entries(impact)
     .filter(([feature]) => !feature.includes('sentiment') && !feature.includes('comment'))
     .map(([feature, delta]) => [feature, Math.abs(Number(delta || 0))])
     .filter(([, value]) => value > 0);
 
-  if (impactEntries.length === 0) {
-    return result?.top_features || {};
-  }
-
   const total = impactEntries.reduce((sum, [, value]) => sum + value, 0);
-  if (total <= 0) {
-    return result?.top_features || {};
-  }
+  if (impactEntries.length === 0 || total <= 0) return {};
 
   const normalized = {};
   for (const [feature, value] of impactEntries) {
@@ -129,7 +126,7 @@ export default function Dashboard() {
                 <SummaryCards data={result} />
                 
                 <div className="panel-row split">
-                  <FeatureChart data={buildDynamicFeatureChartData(result)} />
+                  <FeatureChart data={buildFeatureChartData(result)} />
                   <ImpactPanel data={result.impact_analysis || {}} basePrediction={result.predicted_score} />
                 </div>
 
@@ -139,7 +136,8 @@ export default function Dashboard() {
                     topFeatures={result.top_features || {}}
                     impactAnalysis={result.impact_analysis || {}}
                     formData={formData}
-                    sentimentImpact={result.sentiment_impact} 
+                    sentimentImpact={result.sentiment_impact}
+                    strengthFeature={result.top_feature || result.most_important_feature}
                   />
                 </div>
 

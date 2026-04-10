@@ -1,105 +1,180 @@
-# Learning Milestone: Reading & Interpreting a Sample Data Science Project Repository
+# Building the Project Plan & MVP Definition for the Data Science Sprint
 
-When you first open a data science project repository, it can feel overwhelming. There are folders, notebooks, scripts, plots, and documentation—often with little immediate explanation of where to start or what matters most. This learning milestone is about developing the skill to read a project repository with intention, not just browse it.
+Sprint #3 marks a shift in how you build software. Unlike earlier sprints that focused primarily on interfaces or features, this sprint asks you to think like a data engineer, machine learning practitioner, and product builder at the same time.
 
-Before contributing to any data science project, it is important to understand how the work is organized, what decisions were made, and how different pieces of the project connect to each other. This milestone helps you build that mental map.
+Before you touch a dataset or train a model, you need a clear plan. This learning unit focuses on teaching you how to design that plan thoughtfully, ensuring your work across data, modeling, and application layers stays aligned from start to finish.
 
-## 1. A Repository Is a Story, Not Just Files
+The objective of this lesson is to help you understand how to translate a data-driven idea into a structured, executable project plan for a Data Science & Machine Learning sprint.
 
-A well-structured data science repository tells a story about how a problem was approached.
+You will learn how to connect:
+- A real-world problem
+- A suitable dataset
+- A realistic ML approach
+- A clearly scoped MVP
+- A deployable interactive application
 
-Instead of thinking in terms of files and folders, you should learn to ask:
-- What problem is this project trying to solve?
-- How does the structure reflect the data science lifecycle?
-- What work has already been done, and what assumptions were made?
+By the end of this lesson, you should understand what goes into a strong project plan and why each component matters in a data science workflow.
 
-In this milestone, you will practice identifying the intent behind a repository—understanding why things exist, not just what exists.
+After engaging with this lesson, you should be able to:
+- Design a clear and well-structured project plan for a data science sprint
+- Define a focused MVP that is achievable within limited time
+- Outline an end-to-end workflow, from data ingestion to model inference in an app
+- Break a complex data science project into manageable weekly milestones
 
-## 2. Understanding the Role of the README
+This understanding will guide every technical decision you make during the sprint.
 
-The README is the entry point to any project. It is not just an introduction—it is a guide.
+## Why This Matters
 
-A strong README typically explains:
-- The problem or question being addressed
-- The dataset(s) used and their source
-- The overall approach and workflow
-- Key results or insights
-- Instructions for running or exploring the project
+In data science projects, lack of planning often leads to:
+- Using the wrong dataset
+- Building models that don't solve the actual problem
+- Overengineering without delivering usable outcomes
+- Misalignment between analysis, modeling, and the final app
 
-As part of this milestone, you will learn how to:
-- Judge whether a README is complete or missing critical context
-- Identify gaps between documentation and actual project structure
-- Understand what a README communicates well and what it leaves unclear
+Sprint #3 combines data engineering, machine learning, and deployment. Without a clear plan, these pieces easily drift apart.
 
-This skill is essential, because in real projects, documentation is often the first—and sometimes only—way others understand your work.
+A strong project plan ensures:
+- Your data supports your question
+- Your model supports your insight
+- Your app supports your user
 
-## 3. Interpreting Folder Structure and File Organization
+This lesson teaches you how to maintain that alignment throughout the sprint.
 
-Data science projects often follow common patterns, but no two repositories look exactly the same.
+## What Your Project Plan Should Include
 
-You may encounter folders such as:
-- `data/` for raw or processed datasets
-- `notebooks/` for exploration and analysis
-- `src/` or `scripts/` for reusable code
-- `models/`, `reports/`, or `figures/` for outputs
+A data science project plan is not a research paper. It is a working blueprint.
 
-In this milestone, the goal is not to memorize folder names, but to:
-- Understand what stage of the lifecycle each folder represents
-- Distinguish between exploratory work and finalized outputs
-- Identify where changes should and should not be made
+Your plan should:
+- Be realistic for a 4-week sprint
+- Focus on a clean, interpretable ML workflow
+- Prioritize delivering a fully functional MVP
+- Avoid unnecessary complexity
 
-This helps prevent accidental mistakes and encourages thoughtful contributions.
+This lesson helps you understand what belongs in a project plan—and just as importantly, what does not.
 
-## 4. Reading Notebooks and Code with Purpose
+## 1. Problem Statement & Solution Overview
 
-Opening a notebook or script does not mean you need to understand every line immediately.
+Every successful data science project begins with a clearly defined problem.
 
-Instead, you will learn how to:
-- Scan notebooks to understand their purpose and sequence
-- Identify where data is loaded, cleaned, and transformed
-- Recognize exploratory cells versus finalized analysis
-- Follow the flow of reasoning rather than getting stuck on syntax
+In this section, you learn how to articulate:
+- What real-world problem you are solving
+- Who the problem affects
+- How data and machine learning contribute to the solution
+- How the user will interact with the system you build
 
-The focus here is on understanding decisions, not reproducing results.
+The goal is to clearly connect problem → data → model → app, ensuring that ML is used purposefully rather than as a buzzword.
 
-## 5. Identifying Assumptions, Limitations, and Open Questions
+## 2. Dataset Selection & Scope
 
-Every project makes assumptions—often implicitly.
+Not all datasets are suitable for every problem.
 
-As you review a sample repository, you should ask:
-- What assumptions are being made about the data?
-- Are there signs of missing data or biased samples?
-- What questions remain unanswered?
+This section teaches you how to:
+- Evaluate whether a dataset aligns with your problem statement
+- Identify what parts of the data are relevant
+- Decide what is in scope versus out of scope for the sprint
+- Avoid overreaching into complex or unnecessary techniques
 
-This milestone trains you to read repositories critically, not passively. This is a crucial skill when joining an existing project or reviewing someone else's work.
+You will learn to treat datasets as constraints and enablers, shaping what is realistically achievable within the sprint.
 
-## 6. How This Prepares You to Contribute
+## 3. Roles & Responsibilities
 
-By learning how to read and interpret a data science repository, you prepare yourself to:
-- Contribute without breaking existing workflows
-- Extend analysis instead of duplicating work
-- Improve documentation where it is lacking
-- Ask better questions during reviews and discussions
+Data science is a team sport.
 
-This milestone ensures that when you start contributing, you do so intentionally and responsibly, with respect for the work that already exists.
+In this section, you learn how to:
+- Divide responsibilities across data handling, modeling, and app development
+- Assign roles based on strengths while maintaining collaboration
+- Ensure accountability without siloing knowledge
 
-## What You Should Take Away from This Milestone
+Clear role definition prevents duplicated work and ensures balanced progress across the sprint.
 
-By the end of this learning phase, you should be able to:
-- Explain what a data science repository is trying to achieve
-- Navigate a project confidently using the README and structure
-- Understand how analysis, data, and insights are organized
-- Identify gaps, assumptions, and opportunities for improvement
+## 4. Sprint Timeline (4 Weeks)
 
-This is a foundational skill for collaborative, real-world data science, where reading work is just as important as writing it.
+Data science work benefits from intentional pacing.
 
-## Bonus Content
+This section helps you understand how to:
+- Break the sprint into logical phases
+- Sequence data preparation before modeling
+- Integrate modeling before app deployment
+- Reserve time for testing, refinement, and documentation
 
-This section is optional, and learners who want to explore the topics covered so far can utilize the materials provided below.
+A week-by-week plan helps your team stay grounded and reduces last-minute stress.
 
-- TOP 10 GitHub Repositories for Data Science
-- 10 GitHub Repo for Data Scientist / Data analysts
-- 32 Best Free Datasets for Projects (2026)
+## 5. Deployment & Testing Plan
+
+A project is not complete until it runs reliably for others.
+
+Here, you learn how to think about:
+- Validating model behavior
+- Handling unexpected user inputs
+- Ensuring your app performs consistently
+- Deploying your work so it can be accessed and reviewed
+
+This reinforces the idea that data science work must be usable, not just correct.
+
+## 6. MVP (Minimum Viable Product)
+
+The MVP defines the minimum meaningful version of your project.
+
+This section teaches you how to:
+- Identify essential features versus optional enhancements
+- Focus on delivering end-to-end functionality
+- Balance simplicity with usefulness
+- Ensure your MVP demonstrates real data processing and ML reasoning
+
+A strong MVP proves that your system works—from raw data to user-facing output.
+
+## 7. Functional Requirements
+
+Functional requirements describe what your system must do.
+
+In this section, you learn how to:
+- Translate project goals into concrete behaviors
+- Define expected inputs, outputs, and interactions
+- Ensure your ML model is integrated into a working application
+
+These requirements anchor your implementation decisions throughout the sprint.
+
+## 8. Non-Functional Requirements
+
+Non-functional requirements define how well your system behaves.
+
+This section helps you think beyond correctness and consider:
+- Performance
+- Reliability
+- Usability
+- Maintainability
+
+These qualities often distinguish a strong project from a fragile one.
+
+## 9. Success Metrics
+
+Without clear success metrics, progress becomes subjective.
+
+Here, you learn how to:
+- Define objective indicators of success
+- Measure model performance realistically
+- Evaluate app stability and usability
+- Track team progress through deliverables
+
+Success metrics help your team make informed trade-offs during the sprint.
+
+## 10. Risks & Mitigation
+
+Every data science project encounters uncertainty.
+
+This section introduces you to:
+- Common risks in DS/ML projects
+- How to anticipate problems early
+- How to design fallback strategies
+- How to keep the project moving despite setbacks
+
+Learning to plan for risk is a critical professional skill.
+
+## Closing Perspective
+
+Building a data science project is not just about training a model. It is about engineering a system that transforms data into decisions.
+
+This lesson equips you with the planning mindset required to do that responsibly, realistically, and effectively throughout the sprint.
 
 ## Assignment
 
@@ -109,5 +184,5 @@ Complete this assignment to show your understanding of the concepts you've learn
 **Time Limit**: 180 minutes
 
 ### Related Learning Milestones
-- [Learning Milestone] Understanding the Data Science Lifecycle: Question -> Data -> Insight
-- Building the Project Plan & MVP Definition for the Data Science Sprint
+- [Learning Milestone] Reading & Interpreting a Sample Data Science Project Repository
+- Installing Python and Anaconda on the Local Machine

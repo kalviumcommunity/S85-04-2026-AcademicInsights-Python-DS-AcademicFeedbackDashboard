@@ -9,6 +9,16 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 
+CORE_SCORE_FEATURES = (
+    "teaching_score",
+    "course_score",
+    "exam_score",
+    "lab_score",
+    "library_score",
+    "extra_score",
+)
+
+
 def load_artifact(artifact_path: str) -> Dict[str, Any]:
     """Load model artifact from disk."""
     if not os.path.exists(artifact_path):
@@ -88,7 +98,12 @@ def get_top_feature_importance(
     sorted_items = sorted(full.items(), key=lambda kv: kv[1], reverse=True)
     top_items = sorted_items[:top_n]
 
-    top_features = {k: round(float(v), 6) for k, v in top_items}
+    top_total = float(sum(v for _, v in top_items))
+    if top_total > 0:
+        top_features = {k: round(float(v / top_total), 6) for k, v in top_items}
+    else:
+        top_features = {k: round(float(v), 6) for k, v in top_items}
+
     most_important = sorted_items[0][0] if sorted_items else ""
     least_important = sorted_items[-1][0] if sorted_items else ""
     return top_features, most_important, least_important
@@ -109,9 +124,18 @@ def compute_impact_analysis_to_max(model_obj, prepared_input: pd.DataFrame, sele
     return sorted_impact
 
 
-def compute_average_comparison(prepared_input: pd.DataFrame, predicted_score: float) -> Dict[str, float]:
-    """Compare model prediction vs simple average using same model-ready feature vector."""
-    average_score = float(prepared_input.iloc[0].mean())
+def compute_average_comparison(
+    prepared_input: pd.DataFrame,
+    predicted_score: float,
+    score_features,
+) -> Dict[str, float]:
+    """Compare prediction vs average of core score features only, on 0-1 scale."""
+    available = [f for f in score_features if f in prepared_input.columns]
+    if not available:
+        raise ValueError("No core score features are available for average calculation.")
+
+    score_vals = prepared_input.loc[0, available].astype(float).clip(lower=0.0, upper=1.0)
+    average_score = float(score_vals.mean())
     return {
         "average_score": round(average_score, 6),
         "model_prediction": round(float(predicted_score), 6),
@@ -152,86 +176,185 @@ def compute_sentiment_impact(model_obj, prepared_input: pd.DataFrame, sentiment_
             without_sentiment_df.loc[0, f] = 0.0
     without_sentiment = float(model_obj.predict(without_sentiment_df)[0])
 
-    return round(with_sentiment - without_sentiment, 6)
+    return round(with_sentiment - without_sentiment, 4)
 
 
-def derive_insights(impact_analysis: Dict[str, float], top_features: Dict[str, float]) -> Dict[str, str]:
-    """Create human-friendly strength and improvement guidance."""
-    strength = next(iter(impact_analysis), "")
-    improvement = min(impact_analysis, key=impact_analysis.get) if impact_analysis else ""
-    if not strength and top_features:
-        strength = next(iter(top_features))
+def compute_core_impact_analysis(
+    model_obj,
+    prepared_input: pd.DataFrame,
+    core_score_features,
+    base_prediction: float,
+) -> Dict[str, float]:
+    """Simulate each core score at max (1.0) from processed input and return deltas."""
+    impacts = {}
+    available = [f for f in core_score_features if f in prepared_input.columns]
 
-    insights = []
-    if strength:
-        insights.append(f"Strongest feature pushing scores up is {strength.replace('_', ' ')}.")
-    if improvement:
-        insights.append(f"Biggest area for potential improvement is {improvement.replace('_', ' ')}.")
-    insights.append("Model uses non-linear ensemble learning and unequal feature importance, not averaging.")
+    for col in available:
+        temp = prepared_input.copy()
+        temp.loc[0, col] = 1.0
+        new_pred = float(model_obj.predict(temp)[0])
+        impacts[col] = round(new_pred - float(base_prediction), 4)
 
-    return insights
+    return dict(sorted(impacts.items(), key=lambda x: x[1], reverse=True))
+
+
+def _scale_likert_like_columns(input_df: pd.DataFrame, assume_one_to_five: bool = False) -> pd.DataFrame:
+    """Scale score/rating columns from 0-5 to 0-1 when needed."""
+    scaled = input_df.copy().astype(float)
+    likert_pattern = re.compile(r"(score|rating)", re.IGNORECASE)
+    likert_cols = [c for c in scaled.columns if likert_pattern.search(c)]
+
+    if not likert_cols:
+        return scaled
+
+    likert_values = pd.to_numeric(scaled.loc[0, likert_cols], errors="coerce").dropna()
+    infer_one_to_five_scale = assume_one_to_five or (
+        len(likert_values) > 0
+        and bool((likert_values >= 1.0).all())
+        and bool((likert_values <= 5.0).all())
+        and float(likert_values.max()) > 1.0
+    )
+
+    for col in likert_cols:
+        val = scaled.loc[0, col]
+        if pd.isna(val):
+            continue
+        val = float(val)
+        if infer_one_to_five_scale and 1.0 <= val <= 5.0:
+            scaled.loc[0, col] = val / 5.0
+        elif 1.0 < val <= 5.0:
+            scaled.loc[0, col] = val / 5.0
+
+    return scaled
 
 
 def validate_and_prepare_input(payload: Dict[str, Any], feature_columns, imputer) -> pd.DataFrame:
-    """Validate required inputs are numeric and in [0,1], then transform using trained imputer."""
-    missing_fields = [f for f in feature_columns if f not in payload]
+    """Validate input, scale score-like columns, and prepare model-ready dataframe."""
+    required_core = [f for f in CORE_SCORE_FEATURES if f in feature_columns]
+    missing_fields = [f for f in required_core if f not in payload]
     if missing_fields:
         raise ValueError(f"Missing required fields: {missing_fields}")
 
-    filtered_payload = {feature: payload[feature] for feature in feature_columns}
-    input_df = pd.DataFrame([filtered_payload]).reindex(columns=feature_columns)
+    filtered_payload = {feature: payload.get(feature, np.nan) for feature in feature_columns}
+    input_df = pd.DataFrame([filtered_payload], columns=feature_columns)
     input_df = input_df.apply(pd.to_numeric, errors="coerce")
 
-    invalid_numeric = input_df.columns[input_df.isna().iloc[0]].tolist()
+    provided_fields = [f for f in feature_columns if f in payload]
+    invalid_numeric = [f for f in provided_fields if pd.isna(input_df.loc[0, f])]
     if invalid_numeric:
         raise ValueError(f"Invalid non-numeric values for fields: {invalid_numeric}")
 
-    out_of_range = [
-        c for c in feature_columns
+    # Context-aware scale inference:
+    # - If any provided score/rating is >1, payload is definitely 1-5.
+    # - If request provides only *_score (no *_rating) and values are in [1,5],
+    #   treat as raw 1-5 API input (covers all-ones low-score case).
+    provided_score_like = [
+        c for c in provided_fields
+        if re.search(r"(score|rating)", c, flags=re.IGNORECASE)
+    ]
+    has_rating_fields = any(c.endswith("_rating") for c in provided_score_like)
+    has_score_fields = any(c.endswith("_score") for c in provided_score_like)
+    score_like_vals = pd.to_numeric(input_df.loc[0, provided_score_like], errors="coerce").dropna()
+
+    any_gt_one = bool((score_like_vals > 1.0).any()) if len(score_like_vals) else False
+    score_only_one_to_five = (
+        has_score_fields
+        and not has_rating_fields
+        and len(score_like_vals) > 0
+        and bool((score_like_vals >= 1.0).all())
+        and bool((score_like_vals <= 5.0).all())
+    )
+
+    input_df = _scale_likert_like_columns(
+        input_df,
+        assume_one_to_five=(any_gt_one or score_only_one_to_five),
+    )
+
+    sentiment_cols = set(detect_sentiment_features(feature_columns))
+    non_sentiment_cols = [c for c in provided_fields if c not in sentiment_cols]
+
+    out_of_range_non_sent = [
+        c for c in non_sentiment_cols
         if not (0.0 <= float(input_df.loc[0, c]) <= 1.0)
     ]
-    if out_of_range:
-        raise ValueError(f"Fields must be within [0, 1]: {out_of_range}")
+    if out_of_range_non_sent:
+        raise ValueError(f"Non-sentiment fields must be within [0, 1]: {out_of_range_non_sent}")
+
+    out_of_range_sentiment = [
+        c for c in provided_fields
+        if c in sentiment_cols and not (-1.0 <= float(input_df.loc[0, c]) <= 1.0)
+    ]
+    if out_of_range_sentiment:
+        raise ValueError(f"Sentiment fields must be within [-1, 1]: {out_of_range_sentiment}")
 
     transformed = imputer.transform(input_df)
     prepared = pd.DataFrame(transformed, columns=feature_columns)
-
-    # Keep prepared values mathematically consistent for average comparison and downstream explainability.
-    prepared = prepared.clip(lower=0.0, upper=1.0)
     return prepared
+
+
+def build_scaled_input_payload(prepared_input: pd.DataFrame, feature_columns) -> Dict[str, float]:
+    """Build a JSON-safe scaled payload for debug logging and observability."""
+    return {
+        col: float(prepared_input.loc[0, col])
+        for col in feature_columns
+    }
 
 
 def build_prediction_response(payload: Dict[str, Any]) -> Dict[str, Any]:
     """Run prediction + explainability suite and return production JSON payload."""
     prepared_input = validate_and_prepare_input(payload, feature_columns, imputer)
+    scaled_payload = build_scaled_input_payload(prepared_input, feature_columns)
     predicted_score = float(model.predict(prepared_input)[0])
 
-    avg_cmp = compute_average_comparison(prepared_input, predicted_score)
-    top_features, most_important, least_important = get_top_feature_importance(
+    row = prepared_input.iloc[0]
+    available_core = [f for f in CORE_SCORE_FEATURES if f in prepared_input.columns]
+    average_score = float(row[available_core].mean())
+    if not (0.0 <= average_score <= 1.0):
+        raise ValueError(f"Average score out of range after scaling: {average_score}")
+
+    print("Raw payload:", payload)
+    print("Scaled input:", scaled_payload)
+    print("Processed row:", row[available_core].to_dict())
+    print("Average:", average_score)
+
+    top_features, _, _ = get_top_feature_importance(
         model, feature_columns, prepared_input, top_n=5
     )
+    top_feature = max(top_features, key=top_features.get) if top_features else ""
 
-    top_feature_names = list(top_features.keys())
-    impact_analysis = compute_impact_analysis_to_max(model, prepared_input, top_feature_names)
-    non_linear_test = compute_non_linear_test(model, prepared_input, most_important)
+    core_series = row[available_core].astype(float) if available_core else pd.Series(dtype=float)
+    area_to_improve = core_series.idxmin() if not core_series.empty else ""
+
+    if not core_series.empty:
+        contribution = {
+            feat: float(top_features.get(feat, 0.0)) * float(core_series[feat])
+            for feat in core_series.index
+        }
+        strength = max(contribution, key=contribution.get) if contribution else top_feature
+    else:
+        strength = top_feature
+
     sentiment_impact = compute_sentiment_impact(model, prepared_input, sentiment_features)
-    insights = derive_insights(impact_analysis, top_features)
+    impact_analysis = compute_core_impact_analysis(
+        model,
+        prepared_input,
+        CORE_SCORE_FEATURES,
+        predicted_score,
+    )
 
     return {
         "predicted_score": round(predicted_score, 4),
-        "average_score": avg_cmp["average_score"],
-        "difference_from_average": avg_cmp["difference_from_average"],
+        "average_score": round(average_score, 4),
+        "difference_from_average": round(predicted_score - average_score, 4),
         "model_used": model_name,
         "top_features": top_features,
-        "most_important_feature": most_important,
-        "least_important_feature": least_important,
+        "top_feature": top_feature,
+        "most_important_feature": top_feature,
+        "strength": strength,
+        "area_to_improve": area_to_improve,
         "impact_analysis": impact_analysis,
-        "non_linear_test": non_linear_test,
-        "sentiment_impact": {
-            "difference": sentiment_impact,
-            "sentiment_score": payload.get('Sentiment_Score', 0)
-        } if sentiment_impact != 0.0 else None,
-        "insights": insights,
+        "sentiment_impact": sentiment_impact,
+        "explanation": "Model uses non-linear relationships and unequal feature importance.",
     }
 
 
@@ -246,7 +369,7 @@ model = artifact["model"]
 imputer = artifact["imputer"]
 feature_columns = artifact["feature_columns"]
 model_name = get_model_name(artifact, model)
-sentiment_features = detect_sentiment_features(feature_columns)
+sentiment_features = artifact.get("sentiment_columns") or detect_sentiment_features(feature_columns)
 
 app = Flask(__name__)
 CORS(app)
@@ -275,4 +398,5 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    print("Starting Flask server with auto-reload enabled...")
+    app.run(host="127.0.0.1", port=5000, debug=True, use_reloader=True)

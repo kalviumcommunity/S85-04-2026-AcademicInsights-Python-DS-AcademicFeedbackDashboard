@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function ImpactPanel({ data={}, basePrediction=0 }) {
   const entries = Object.entries(data);
   if (entries.length === 0) return null;
@@ -18,6 +20,7 @@ export default function ImpactPanel({ data={}, basePrediction=0 }) {
         </span>
       </h3>
       <p className="description">What happens if we max out a single feature?</p>
+      <p className="description">Impact shows how much score improves if a feature is maximized.</p>
       
       <ul className="impact-list">
         {entries.map(([feature, difference], idx) => {
@@ -32,9 +35,13 @@ export default function ImpactPanel({ data={}, basePrediction=0 }) {
                 </span>
               </div>
               <div className="impact-delta">
-                <span className={isPositive ? 'positive' : 'negative'}>
-                  {isPositive ? '+' : ''}{difference.toFixed(2)} pts
-                </span>
+                {Math.abs(Number(difference || 0)) < 0.005 ? (
+                  <span className="neutral">No significant impact</span>
+                ) : (
+                  <span className={isPositive ? 'positive' : 'negative'}>
+                    {isPositive ? '+' : ''}{difference.toFixed(2)} pts
+                  </span>
+                )}
                 <span className="base-comparison">
                   ({Number(basePrediction || 0).toFixed(2)} → {(Number(basePrediction || 0) + Number(difference || 0)).toFixed(2)})
                 </span>

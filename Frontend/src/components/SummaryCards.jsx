@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function SummaryCards({ data }) {
   const {
     predicted_score = 0,

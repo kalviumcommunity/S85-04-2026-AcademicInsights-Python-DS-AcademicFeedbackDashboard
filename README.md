@@ -98,6 +98,15 @@ Your video must include:
 - Interrupting a running cell
 - Restarting the kernel
 - Rerunning cells after restart
+
+## Completed Work
+
+The practical demonstrations for the above tasks were successfully implemented and tested in `Untitled.ipynb`:
+
+1. **Running Cells & State**: Setup variables (`my_var`) across sequentially separated cells and proved memory preservation throughout active kernel sessions.
+2. **Restarting the Kernel**: Restarted the kernel via the Jupyter interface and verified that it completely purges the variable state, forcing an intentional `NameError` if code is executed out of sequence.
+3. **Interrupting Executions**: Created a 20-second `time.sleep()` loop cell designed specifically to be manually interrupted using the stop button, ensuring the notebook remained responsive without a full restart.
+4. **Recognizing Trade-offs**: Documented the explicit differences between safely interrupting (for long execution freezes) versus a full restart (wiping broken/corrupted memory states globally for reproducibility).
 - Brief explanation of why each action is used
 
 ## Submission Guidelines

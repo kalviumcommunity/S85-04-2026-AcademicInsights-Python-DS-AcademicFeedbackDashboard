@@ -1,180 +1,128 @@
-# Building the Project Plan & MVP Definition for the Data Science Sprint
+# Running, Restarting, and Interrupting Jupyter Kernels
 
-Sprint #3 marks a shift in how you build software. Unlike earlier sprints that focused primarily on interfaces or features, this sprint asks you to think like a data engineer, machine learning practitioner, and product builder at the same time.
+This milestone focuses on understanding how Jupyter kernels work and how to control them safely. Many notebook issues are not caused by code errors, but by kernel state—cells running out of order, stale variables, or long-running executions that were never interrupted.
 
-Before you touch a dataset or train a model, you need a clear plan. This learning unit focuses on teaching you how to design that plan thoughtfully, ensuring your work across data, modeling, and application layers stays aligned from start to finish.
+Learning how to run, restart, and interrupt kernels correctly is essential for debugging, reproducibility, and sanity during the Data Science sprint.
 
-The objective of this lesson is to help you understand how to translate a data-driven idea into a structured, executable project plan for a Data Science & Machine Learning sprint.
+This lesson is to help you:
+- Understand what a Jupyter kernel is and why it matters
+- Run notebook cells in a controlled way
+- Restart kernels to reset notebook state
+- Interrupt long-running or stuck executions safely
 
-You will learn how to connect:
-- A real-world problem
-- A suitable dataset
-- A realistic ML approach
-- A clearly scoped MVP
-- A deployable interactive application
-
-By the end of this lesson, you should understand what goes into a strong project plan and why each component matters in a data science workflow.
-
-After engaging with this lesson, you should be able to:
-- Design a clear and well-structured project plan for a data science sprint
-- Define a focused MVP that is achievable within limited time
-- Outline an end-to-end workflow, from data ingestion to model inference in an app
-- Break a complex data science project into manageable weekly milestones
-
-This understanding will guide every technical decision you make during the sprint.
+By completing this milestone, you will be able to:
+- Identify when a kernel is running, idle, or stuck
+- Restart a kernel intentionally and rerun cells
+- Interrupt execution without breaking the notebook
+- Maintain a clean, predictable notebook state
 
 ## Why This Matters
 
-In data science projects, lack of planning often leads to:
-- Using the wrong dataset
-- Building models that don't solve the actual problem
-- Overengineering without delivering usable outcomes
-- Misalignment between analysis, modeling, and the final app
+Common notebook problems include:
+- Code working once but failing later
+- Variables mysteriously changing values
+- Cells depending on hidden execution order
+- Kernels freezing during execution
 
-Sprint #3 combines data engineering, machine learning, and deployment. Without a clear plan, these pieces easily drift apart.
+These issues usually come from poor kernel management, not bad logic.
 
-A strong project plan ensures:
-- Your data supports your question
-- Your model supports your insight
-- Your app supports your user
+This milestone ensures that:
+- Your notebooks behave consistently
+- You can debug issues systematically
+- Reviewers and teammates can reproduce your results
 
-This lesson teaches you how to maintain that alignment throughout the sprint.
+Think of the kernel as the engine of your notebook—this lesson teaches you how to control it.
 
-## What Your Project Plan Should Include
+## What You Are Expected to Do
 
-A data science project plan is not a research paper. It is a working blueprint.
+This is a kernel control and debugging milestone, not a data analysis task.
 
-Your plan should:
-- Be realistic for a 4-week sprint
-- Focus on a clean, interpretable ML workflow
-- Prioritize delivering a fully functional MVP
-- Avoid unnecessary complexity
+You are expected to:
+- Run cells in sequence
+- Restart the kernel and observe effects
+- Interrupt a running cell
+- Understand when and why to use each action
 
-This lesson helps you understand what belongs in a project plan—and just as importantly, what does not.
+No datasets or analysis are required.
 
-## 1. Problem Statement & Solution Overview
+## 1. Running Cells and Understanding Execution Order
 
-Every successful data science project begins with a clearly defined problem.
+Run notebook cells deliberately.
 
-In this section, you learn how to articulate:
-- What real-world problem you are solving
-- Who the problem affects
-- How data and machine learning contribute to the solution
-- How the user will interact with the system you build
+You should:
+- Execute cells one by one
+- Observe how outputs depend on execution order
+- Understand that the kernel remembers variables until restarted
 
-The goal is to clearly connect problem → data → model → app, ensuring that ML is used purposefully rather than as a buzzword.
+This builds awareness of hidden state in notebooks.
 
-## 2. Dataset Selection & Scope
+## 2. Restarting Kernel
 
-Not all datasets are suitable for every problem.
+Restart the kernel to reset notebook state.
 
-This section teaches you how to:
-- Evaluate whether a dataset aligns with your problem statement
-- Identify what parts of the data are relevant
-- Decide what is in scope versus out of scope for the sprint
-- Avoid overreaching into complex or unnecessary techniques
+You should:
+- Use restart option from Jupyter menu
+- Observe that variables and memory are cleared
+- Rerun cells from top to restore state
 
-You will learn to treat datasets as constraints and enablers, shaping what is realistically achievable within the sprint.
+This is essential for testing notebook reproducibility.
 
-## 3. Roles & Responsibilities
+## 3. Interrupting Execution
 
-Data science is a team sport.
+Interrupt a running cell safely.
 
-In this section, you learn how to:
-- Divide responsibilities across data handling, modeling, and app development
-- Assign roles based on strengths while maintaining collaboration
-- Ensure accountability without siloing knowledge
+You should:
+- Start a deliberately long-running or infinite operation
+- Interrupt execution using the interrupt option
+- Confirm that the notebook remains responsive afterward
 
-Clear role definition prevents duplicated work and ensures balanced progress across the sprint.
+This skill prevents frozen notebooks and wasted time.
 
-## 4. Sprint Timeline (4 Weeks)
+## 4. Recognizing When to Restart vs Interrupt
 
-Data science work benefits from intentional pacing.
+Understand the difference between restarting and interrupting.
 
-This section helps you understand how to:
-- Break the sprint into logical phases
-- Sequence data preparation before modeling
-- Integrate modeling before app deployment
-- Reserve time for testing, refinement, and documentation
+You should:
+- Identify scenarios where interrupting is sufficient
+- Identify scenarios where a full restart is safer
+- Explain trade-offs between the two actions
 
-A week-by-week plan helps your team stay grounded and reduces last-minute stress.
+This helps you respond correctly to notebook issues.
 
-## 5. Deployment & Testing Plan
+## 5. Video Walkthrough (~2 Minutes)
 
-A project is not complete until it runs reliably for others.
+Record a short screen-capture video demonstrating kernel control.
 
-Here, you learn how to think about:
-- Validating model behavior
-- Handling unexpected user inputs
-- Ensuring your app performs consistently
-- Deploying your work so it can be accessed and reviewed
+Your video must include:
+- Running cells normally
+- Interrupting a running cell
+- Restarting the kernel
+- Rerunning cells after restart
+- Brief explanation of why each action is used
 
-This reinforces the idea that data science work must be usable, not just correct.
+## Submission Guidelines
 
-## 6. MVP (Minimum Viable Product)
+- Submit your work as a Pull Request (if required)
+- Submit video link as instructed
+- Video should be approximately 2 minutes
+- Video must be screen-facing and clearly visible
 
-The MVP defines the minimum meaningful version of your project.
+## Important Notes
 
-This section teaches you how to:
-- Identify essential features versus optional enhancements
-- Focus on delivering end-to-end functionality
-- Balance simplicity with usefulness
-- Ensure your MVP demonstrates real data processing and ML reasoning
+- This milestone is about control and predictability
+- Do not perform EDA or data loading
+- Keep examples simple and intentional
+- Always restart and rerun before final submission in real projects
 
-A strong MVP proves that your system works—from raw data to user-facing output.
+Knowing how to manage kernels prevents subtle, hard-to-debug errors. This milestone ensures you can control notebook execution confidently throughout the Data Science sprint.
 
-## 7. Functional Requirements
+## Bonus Content
 
-Functional requirements describe what your system must do.
+This section is optional, and learners who want to explore the topics covered so far can utilize the materials provided below.
 
-In this section, you learn how to:
-- Translate project goals into concrete behaviors
-- Define expected inputs, outputs, and interactions
-- Ensure your ML model is integrated into a working application
-
-These requirements anchor your implementation decisions throughout the sprint.
-
-## 8. Non-Functional Requirements
-
-Non-functional requirements define how well your system behaves.
-
-This section helps you think beyond correctness and consider:
-- Performance
-- Reliability
-- Usability
-- Maintainability
-
-These qualities often distinguish a strong project from a fragile one.
-
-## 9. Success Metrics
-
-Without clear success metrics, progress becomes subjective.
-
-Here, you learn how to:
-- Define objective indicators of success
-- Measure model performance realistically
-- Evaluate app stability and usability
-- Track team progress through deliverables
-
-Success metrics help your team make informed trade-offs during the sprint.
-
-## 10. Risks & Mitigation
-
-Every data science project encounters uncertainty.
-
-This section introduces you to:
-- Common risks in DS/ML projects
-- How to anticipate problems early
-- How to design fallback strategies
-- How to keep the project moving despite setbacks
-
-Learning to plan for risk is a critical professional skill.
-
-## Closing Perspective
-
-Building a data science project is not just about training a model. It is about engineering a system that transforms data into decisions.
-
-This lesson equips you with the planning mindset required to do that responsibly, realistically, and effectively throughout the sprint.
+- Stop Jupyter Kernel if Kernel is not responding
+- Kernel Keeps dying and restarting
+- Kernel Restarting
 
 ## Assignment
 
@@ -184,5 +132,5 @@ Complete this assignment to show your understanding of the concepts you've learn
 **Time Limit**: 180 minutes
 
 ### Related Learning Milestones
-- [Learning Milestone] Reading & Interpreting a Sample Data Science Project Repository
-- Installing Python and Anaconda on the Local Machine
+- Understanding Notebook Cells: Code vs Markdown
+- Writing Markdown for Headings, Lists, and Code Blocks in Notebooks

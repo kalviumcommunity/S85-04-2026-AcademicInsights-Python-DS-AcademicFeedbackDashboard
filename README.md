@@ -109,6 +109,10 @@ The practical demonstrations for the above tasks were successfully implemented a
 4. **Recognizing Trade-offs**: Documented the explicit differences between safely interrupting (for long execution freezes) versus a full restart (wiping broken/corrupted memory states globally for reproducibility).
 - Brief explanation of why each action is used
 
+### Milestone 4.10 & 4.12 Completed Work
+- **Markdown Documentation**: Added Markdown cells to `Untitled.ipynb` demonstrating proper use of subheadings, unordered/ordered lists, inline code snippets, and fenced code blocks for clear documentation.
+- **Data Organization**: Wrote a Python script inside the notebook utilizing the `os` module to automatically generate standard data science directory structures (`data/raw/`, `data/processed/`, and `outputs/`). This enforces the separation of original data, manipulated data, and model/figure artifacts to avoid contamination and build reproducibility.
+
 ## Submission Guidelines
 
 - Submit your work as a Pull Request (if required)

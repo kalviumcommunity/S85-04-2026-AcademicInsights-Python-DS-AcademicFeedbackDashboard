@@ -1,0 +1,4 @@
+{
+  "python.defaultInterpreterPath": "/home/pranav/anaconda3/bin/python",
+  "jupyter.notebookFileRoot": "${workspaceFolder}"
+}

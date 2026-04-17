@@ -135,3 +135,10 @@ This dashboard would enable data-driven academic decisions and continuous improv
 This project demonstrates how raw student feedback data can be transformed into meaningful insights using fundamental data science techniques. Even without complex machine learning models, valuable patterns can be uncovered to support better academic decisions.
 
 ---
+
+## ✅ Completed Milestones
+
+* **Milestone 4.9**: Implemented kernel controls (Running, Restarting, and Interrupting) to manage notebook state safely.
+* **Milestone 4.10**: Applied Markdown for structured documentation (headings, lists, inline code, and code blocks) to keep notebooks readable.
+* **Milestone 4.12**: Created standard data science directory structures (`data/raw`, `data/processed`, `outputs`) programmatically to prevent data contamination.
+* **Milestone 4.16**: Wrote conditional logic statements (`if`, `elif`, `else`) and utilized logical operators (`and`, `or`, `not`) to control data-driven program flow in `Untitled.ipynb`.

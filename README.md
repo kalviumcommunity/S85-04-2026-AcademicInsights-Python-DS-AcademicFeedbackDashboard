@@ -1,6 +1,6 @@
 # Passing Data into Functions and Returning Results
 
-This milestone focuses on passing data into Python functions and returning results to build reusable and flexible programs. Understanding how data flows into and out of functions is essential for writing modular, testable, and maintainable code.
+This milestone focuses on passing data into Python functions and returning results to build reusable and flexible programs. Understanding how data flows into and out of functions is essential for writing modular, teggstable, and maintainable code.
 
 Instead of hardcoding values or printing everything, functions should accept inputs and return outputs that can be reused elsewhere in your program.
 

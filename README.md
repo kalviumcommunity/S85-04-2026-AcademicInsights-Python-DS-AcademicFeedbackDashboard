@@ -142,3 +142,4 @@ This project demonstrates how raw student feedback data can be transformed into 
 * **Milestone 4.10**: Applied Markdown for structured documentation (headings, lists, inline code, and code blocks) to keep notebooks readable.
 * **Milestone 4.12**: Created standard data science directory structures (`data/raw`, `data/processed`, `outputs`) programmatically to prevent data contamination.
 * **Milestone 4.16**: Wrote conditional logic statements (`if`, `elif`, `else`) and utilized logical operators (`and`, `or`, `not`) to control data-driven program flow in `Untitled.ipynb`.
+* **Milestone 4.18**: Defined and called Python functions to encapsulate reusable logic, passed parameters and arguments, and demonstrated basic local versus global variable scope.

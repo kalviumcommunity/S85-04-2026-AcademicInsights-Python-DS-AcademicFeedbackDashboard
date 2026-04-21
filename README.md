@@ -142,3 +142,4 @@ Complete this assignment to show your understanding of the concepts you've learn
 
 ## ✅ Completed Milestones
 * **Milestone 4.20**: Demonstrated PEP 8 basics by refactoring cryptic variables into descriptive `snake_case` names and replacing redundant comments with clear, intent-driven explanations.
+* **Milestone 4.25**: Structured Python code into clear sections, extracted repeated logic into reusable functions, and kept execution flow clean with a `main()` entry point.

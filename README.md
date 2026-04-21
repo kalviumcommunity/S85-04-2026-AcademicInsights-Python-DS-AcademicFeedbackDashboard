@@ -139,3 +139,6 @@ Complete this assignment to show your understanding of the concepts you've learn
 ### Related Learning Milestones
 - Defining and Calling Python Functions
 - Writing Readable Variable Names and Comments (PEP8 Basics)
+
+## ✅ Completed Milestones
+* **Milestone 4.20**: Demonstrated PEP 8 basics by refactoring cryptic variables into descriptive `snake_case` names and replacing redundant comments with clear, intent-driven explanations.

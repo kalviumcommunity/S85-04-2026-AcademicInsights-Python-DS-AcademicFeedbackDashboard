@@ -144,3 +144,4 @@ Complete this assignment to show your understanding of the concepts you've learn
 * **Milestone 4.20**: Demonstrated PEP 8 basics by refactoring cryptic variables into descriptive `snake_case` names and replacing redundant comments with clear, intent-driven explanations.
 * **Milestone 4.22**: Imported NumPy, transformed Python lists into arrays, inspected properties, and executed operations element-wise.
 * **Milestone 4.25**: Applied vectorized operations instead of native Python `for` loops across NumPy arrays to optimize performance and reduce codebase verbosity for mathematical computations and conditional logic filtering.
+* **Milestone 4.27**: Created Pandas Series from normal Python lists and NumPy arrays, and demonstrated access methodologies (Positional selection vs Label-based accessing).

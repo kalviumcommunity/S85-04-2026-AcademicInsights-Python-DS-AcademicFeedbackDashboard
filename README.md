@@ -146,3 +146,4 @@ Complete this assignment to show your understanding of the concepts you've learn
 * **Milestone 4.25**: Applied vectorized operations instead of native Python `for` loops across NumPy arrays to optimize performance and reduce codebase verbosity for mathematical computations and conditional logic filtering.
 * **Milestone 4.27**: Created Pandas Series from normal Python lists and NumPy arrays, and demonstrated access methodologies (Positional selection vs Label-based accessing).
 * **Milestone 4.29**: Successfully loaded an external dataset (`final_output_with_scores.csv`) into a Pandas DataFrame using `pd.read_csv()`, and inspected the raw row/column structure recursively to ensure data integrity before any analysis begins.
+* **Milestone 4.30**: Used `.head()` (to visual data loading), `.info()` (to determine structural integrity and missing data), and `.describe()` (to pull preliminary distribution statistical metrics and identify numerical outliers).

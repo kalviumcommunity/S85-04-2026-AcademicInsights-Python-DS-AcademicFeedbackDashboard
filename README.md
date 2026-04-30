@@ -1,149 +1,17 @@
-# Passing Data into Functions and Returning Results
+## 📊 1. Project Insights
+By translating raw survey data into a visual dashboard, the following key patterns emerged:
+* **Overall Sentiment is Measurable:** The satisfaction histogram revealed the baseline health of the student body, allowing us to track general sentiment shifts over time rather than relying on anecdotal complaints.
+* **Departmental Outliers Drive Action:** The boxplot analysis demonstrated that average scores hide extreme realities. We identified specific outlier courses within departments (dots outside the IQR) that require immediate administrative review.
+* **Difficulty ≠ Dissatisfaction:** The correlation scatter plot showed that high course difficulty does not automatically guarantee low student satisfaction, suggesting that students value rigorous courses provided the teaching quality remains high.
 
-This milestone focuses on passing data into Python functions and returning results to build reusable and flexible programs. Understanding how data flows into and out of functions is essential for writing modular, teggstable, and maintainable code.
+## 🧠 2. Documenting Assumptions
+To proceed with the analysis, the following structural assumptions were made:
+* **Missing Data Logic:** We assumed that a missing value in the `Comments_Length` column meant the student intentionally skipped the text box, justifying the decision to impute these null values with zero rather than dropping the row entirely.
+* **Metric Linearity:** We assumed the 1-to-5 rating scale provided equidistant psychological intervals for the students (e.g., the jump from 3 to 4 means the same as 4 to 5).
+* **Data Relevance:** We assumed the dataset accurately reflects the current academic environment and that historical curriculum changes have not rendered the older survey rows obsolete.
 
-Instead of hardcoding values or printing everything, functions should accept inputs and return outputs that can be reused elsewhere in your program.
-
-This lesson is to help you:
-- Understand function parameters and arguments
-- Pass data into functions correctly
-- Return results using return statement
-- Use returned values in further computation
-- Write functions that are reusable and predictable
-
-By completing this milestone, you will be able to:
-- Define functions that accept input parameters
-- Call functions with different arguments
-- Return values from functions reliably
-- Store and reuse returned results
-- Design functions with clear input-output behavior
-
-## Why This Matters
-
-Common beginner issues include:
-- Functions that only print values instead of returning them
-- Hardcoded values inside functions
-- Difficulty reusing function results
-- Confusing data flow across a program
-
-These issues limit scalability and reuse.
-
-This milestone ensures that:
-- Functions behave like clear input-output units
-- Logic can be reused across of program
-- Code is easier to test and extend
-- Data flows predictably through functions
-
-Think of functions as machines—you put data in, and you get results out.
-
-## What You Are Expected to Do
-
-This is a Python fundamentals milestone, not a data analysis task.
-
-You are expected to:
-- Define functions with parameters
-- Pass values into functions during calls
-- Use return to send results back
-- Print returned values outside of function
-- No datasets or advanced libraries are required.
-
-## 1. Understanding Parameters and Arguments
-
-Learn how functions accept input.
-
-You should:
-- Define parameters in the function signature
-- Pass arguments during function calls
-- Match arguments to parameters correctly
-- Use meaningful parameter names
-
-This makes functions flexible.
-
-## 2. Returning Values from Functions
-
-Learn how to send data back.
-
-You should:
-- Use return statement
-- Return a single value or expression
-- Understand when a function ends execution
-- Avoid unnecessary print statements inside functions
-
-Returning values enables reuse.
-
-## 3. Using Returned Results
-
-Work with function outputs.
-
-You should:
-- Store returned values in variables
-- Use returned values in calculations
-- Pass returned values to other functions
-- Print results only when needed
-
-This builds composable logic.
-
-## 4. Avoiding Common Function Mistakes
-
-Understand pitfalls.
-
-You should:
-- Avoid hardcoding values
-- Avoid mixing print and return incorrectly
-- Ensure every execution path returns a value when needed
-- Keep function logic focused
-
-Good habits prevent bugs.
-
-## 5. Video Walkthrough (~2 Minutes)
-
-Record a short screen-capture video demonstrating function inputs and outputs.
-
-Your video must include:
-- A function with parameters
-- Passing arguments into function
-- Returning a value
-- Using returned result elsewhere
-
-## Submission Guidelines
-
-- Submit your work as a Pull Request (if required)
-- Submit video link as instructed
-- Video should be approximately 2 minutes
-- Video must be screen-facing and clearly visible
-
-## Important Notes
-
-- Prefer returning values over printing
-- Keep functions predictable
-- Use clear parameter names
-- Well-designed functions improve program structure
-
-Understanding how data flows through functions is critical for clean coding. This milestone ensures you can pass data into functions and return results confidently.
-
-## Bonus Content
-
-This section is optional, and learners who want to explore the topics covered so far can utilize the materials provided below.
-
-- Python Function Parameters
-- Return Statement in Python
-- Best Practices for Python Functions
-
-## Assignment
-
-Complete this assignment to show your understanding of the concepts you've learned.
-
-**Target**: Get 60% or more
-**Time Limit**: 180 minutes
-
-### Related Learning Milestones
-- Defining and Calling Python Functions
-- Writing Readable Variable Names and Comments (PEP8 Basics)
-
-## ✅ Completed Milestones
-* **Milestone 4.20**: Demonstrated PEP 8 basics by refactoring cryptic variables into descriptive `snake_case` names and replacing redundant comments with clear, intent-driven explanations.
-* **Milestone 4.22**: Imported NumPy, transformed Python lists into arrays, inspected properties, and executed operations element-wise.
-* **Milestone 4.25**: Applied vectorized operations instead of native Python `for` loops across NumPy arrays to optimize performance and reduce codebase verbosity for mathematical computations and conditional logic filtering.
-* **Milestone 4.27**: Created Pandas Series from normal Python lists and NumPy arrays, and demonstrated access methodologies (Positional selection vs Label-based accessing).
-* **Milestone 4.29**: Successfully loaded an external dataset (`final_output_with_scores.csv`) into a Pandas DataFrame using `pd.read_csv()`, and inspected the raw row/column structure recursively to ensure data integrity before any analysis begins.
-* **Milestone 4.30**: Used `.head()` (to visual data loading), `.info()` (to determine structural integrity and missing data), and `.describe()` (to pull preliminary distribution statistical metrics and identify numerical outliers).
+## ⚠️ 3. Acknowledging Limitations
+While this dashboard provides actionable direction, it is constrained by the following limitations:
+* **Voluntary Response Bias:** Survey data inherently suffers from response bias. Usually, only students with extremely positive or extremely negative experiences submit feedback, leaving the "silent majority" unrepresented in the data.
+* **Lack of Contextual Features:** The dataset lacks demographic and academic history context. A student failing the prerequisite might rate a course as overly difficult, skewing the data against the professor unfairly.
+* **Subjective Metrics:** "Teaching Quality" is an entirely subjective metric defined by the student, not a standardized evaluation of the professor's actual pedagogical effectiveness.

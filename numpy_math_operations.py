@@ -269,6 +269,53 @@ def demonstrate_comparison_demo():
     arr2 = np.array([4, 5, 6])
     print(f"Arrays: {arr1} + {arr2} = {arr1 + arr2}")
 
+
+def demonstrate_vectorization():
+    """Show loop-based vs vectorized operations and common vectorized patterns."""
+    print("\n=== Vectorization: Loops vs NumPy Operations ===")
+
+    # Create an array
+    arr = np.arange(1, 11)  # 1..10
+    print(f"Original array: {arr}")
+
+    # Loop-based operation: compute x*2 + 3 for each element
+    loop_result = []
+    for x in arr:
+        loop_result.append(x * 2 + 3)
+    loop_result = np.array(loop_result)
+    print(f"Loop result: {loop_result}")
+
+    # Vectorized equivalent
+    vect_result = arr * 2 + 3
+    print(f"Vectorized result: {vect_result}")
+
+    # Confirm equality
+    print(f"Equal results: {np.array_equal(loop_result, vect_result)}")
+
+    # Vectorized comparison and masking
+    print("\nVectorized comparisons and masking:")
+    mask = arr % 2 == 0
+    print(f"Mask (even numbers): {mask}")
+    evens = arr[mask]
+    print(f"Even numbers via mask: {evens}")
+
+    # Apply conditional logic without loops: set negatives if condition (example)
+    a = np.array([5, -2, 7, -1, 0])
+    print(f"Before conditional: {a}")
+    a_clipped = np.where(a < 0, 0, a)  # replace negatives with 0
+    print(f"After np.where (negatives -> 0): {a_clipped}")
+
+    # Broadcasting example: add a row vector to each row of a matrix
+    mat = np.arange(1, 7).reshape(2, 3)
+    row = np.array([10, 20, 30])
+    print(f"Matrix:\n{mat}")
+    print(f"Row to add: {row}")
+    print(f"Broadcasted sum:\n{mat + row}")
+
+    # Note about when NOT to vectorize: incompatible shapes or complex control flow
+    print("\nNote: Vectorization is best for element-wise math and masking; complex
+control-flow may still need explicit loops or `np.vectorize` for readability.")
+
 # Main demonstration function
 def main():
     """Run all NumPy math demonstrations."""
